@@ -1,38 +1,38 @@
-D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLogging\Module.RiderLogging.cpp
+D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLogging\Module.RiderLogging.cpp
 /I .
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RiderLogging\Private
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RiderLogging\Private
 /I Runtime
 /I Runtime\TraceLog\Public
 /I Runtime\Core\Public
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RD\src
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RD\src\rd_core_cpp
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RD\src\rd_core_cpp\src\main
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RD\src\rd_framework_cpp
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RD\src\rd_framework_cpp\src\main
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RD\src\rd_framework_cpp\src\main\util
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RD\src\rd_gen_cpp\src
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RD\thirdparty
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RD\thirdparty\ordered-map\include
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RD\thirdparty\optional\tl
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RD\thirdparty\variant\include
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RD\thirdparty\string-view-lite\include
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RD\thirdparty\spdlog\include
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RD\thirdparty\clsocket\src
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RD\thirdparty\CTPL\include
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RiderLink\Public\Model\Library
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RiderLink\Public\Model\RdEditorProtocol
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RiderLink\Public
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RiderBlueprint\Public
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RD\src
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RD\src\rd_core_cpp
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RD\src\rd_core_cpp\src\main
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RD\src\rd_framework_cpp
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RD\src\rd_framework_cpp\src\main
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RD\src\rd_framework_cpp\src\main\util
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RD\src\rd_gen_cpp\src
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RD\thirdparty
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RD\thirdparty\ordered-map\include
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RD\thirdparty\optional\tl
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RD\thirdparty\variant\include
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RD\thirdparty\string-view-lite\include
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RD\thirdparty\spdlog\include
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RD\thirdparty\clsocket\src
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RD\thirdparty\CTPL\include
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RiderLink\Public\Model\Library
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RiderLink\Public\Model\RdEditorProtocol
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RiderLink\Public
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RiderBlueprint\Public
 /I ThirdParty\mimalloc\include
 /I "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\INCLUDE"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\ucrt"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\shared"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\um"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\winrt"
-/FI"D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLogging\Definitions.h"
-/Fo"D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLogging\Module.RiderLogging.cpp.obj"
-/sourceDependencies D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLogging\Module.RiderLogging.cpp.dep.json
+/FI"D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLogging\Definitions.h"
+/Fo"D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLogging\Module.RiderLogging.cpp.obj"
+/sourceDependencies D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLogging\Module.RiderLogging.cpp.dep.json
 /Zc:inline
 /nologo
 /Oi

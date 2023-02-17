@@ -1,11 +1,11 @@
 {
     "Version": "1.1",
     "Data": {
-        "Source": "d:\\unrealrepo\\krazykart\\plugins\\developer\\riderlink\\source\\ridershaderinfodump\\ridershaderinfodump.cpp",
+        "Source": "d:\\unrealrepo\\krazykarts\\krazykart\\plugins\\developer\\riderlink\\source\\ridershaderinfodump\\ridershaderinfodump.cpp",
         "ProvidedModule": "",
         "Includes": [
-            "d:\\unrealrepo\\krazykart\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\unrealeditor\\development\\ridershaderinfodump\\definitions.h",
-            "d:\\unrealrepo\\krazykart\\plugins\\developer\\riderlink\\source\\ridershaderinfodump\\ridershaderinfodump.h",
+            "d:\\unrealrepo\\krazykarts\\krazykart\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\unrealeditor\\development\\ridershaderinfodump\\definitions.h",
+            "d:\\unrealrepo\\krazykarts\\krazykart\\plugins\\developer\\riderlink\\source\\ridershaderinfodump\\ridershaderinfodump.h",
             "c:\\ue_5.1\\engine\\source\\runtime\\core\\public\\modules\\moduleinterface.h",
             "c:\\ue_5.1\\engine\\source\\runtime\\core\\public\\coretypes.h",
             "c:\\ue_5.1\\engine\\source\\runtime\\core\\public\\hal\\platform.h",

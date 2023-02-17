@@ -1,12 +1,12 @@
 {
     "Version": "1.1",
     "Data": {
-        "Source": "d:\\unrealrepo\\krazykart\\plugins\\developer\\riderlink\\source\\rd\\src\\rd_framework_cpp\\src\\main\\intern\\internscheduler.cpp",
+        "Source": "d:\\unrealrepo\\krazykarts\\krazykart\\plugins\\developer\\riderlink\\source\\rd\\src\\rd_framework_cpp\\src\\main\\intern\\internscheduler.cpp",
         "ProvidedModule": "",
         "Includes": [
-            "d:\\unrealrepo\\krazykart\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\unrealeditor\\development\\rd\\definitions.h",
-            "d:\\unrealrepo\\krazykart\\plugins\\developer\\riderlink\\source\\rd\\src\\rd_framework_cpp\\src\\main\\intern\\internscheduler.h",
-            "d:\\unrealrepo\\krazykart\\plugins\\developer\\riderlink\\source\\rd\\src\\rd_framework_cpp\\src\\main\\scheduler\\base\\ischeduler.h",
+            "d:\\unrealrepo\\krazykarts\\krazykart\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\unrealeditor\\development\\rd\\definitions.h",
+            "d:\\unrealrepo\\krazykarts\\krazykart\\plugins\\developer\\riderlink\\source\\rd\\src\\rd_framework_cpp\\src\\main\\intern\\internscheduler.h",
+            "d:\\unrealrepo\\krazykarts\\krazykart\\plugins\\developer\\riderlink\\source\\rd\\src\\rd_framework_cpp\\src\\main\\scheduler\\base\\ischeduler.h",
             "c:\\program files (x86)\\microsoft visual studio\\2019\\community\\vc\\tools\\msvc\\14.29.30133\\include\\functional",
             "c:\\program files (x86)\\microsoft visual studio\\2019\\community\\vc\\tools\\msvc\\14.29.30133\\include\\yvals_core.h",
             "c:\\program files (x86)\\microsoft visual studio\\2019\\community\\vc\\tools\\msvc\\14.29.30133\\include\\vcruntime.h",
@@ -101,8 +101,8 @@
             "c:\\program files (x86)\\windows kits\\10\\include\\10.0.22621.0\\ucrt\\math.h",
             "c:\\program files (x86)\\microsoft visual studio\\2019\\community\\vc\\tools\\msvc\\14.29.30133\\include\\vcruntime_startup.h",
             "c:\\program files (x86)\\microsoft visual studio\\2019\\community\\vc\\tools\\msvc\\14.29.30133\\include\\xthreads.h",
-            "d:\\unrealrepo\\krazykart\\plugins\\developer\\riderlink\\source\\rd\\src\\rd_framework_cpp\\rd_framework_export.h",
-            "d:\\unrealrepo\\krazykart\\plugins\\developer\\riderlink\\source\\rd\\src\\rd_framework_cpp\\src\\main\\util\\guards.h"
+            "d:\\unrealrepo\\krazykarts\\krazykart\\plugins\\developer\\riderlink\\source\\rd\\src\\rd_framework_cpp\\rd_framework_export.h",
+            "d:\\unrealrepo\\krazykarts\\krazykart\\plugins\\developer\\riderlink\\source\\rd\\src\\rd_framework_cpp\\src\\main\\util\\guards.h"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []

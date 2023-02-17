@@ -1,4 +1,4 @@
-D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RiderShaderInfoDump\RiderShaderInfoDump.cpp
+D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source\RiderShaderInfoDump\RiderShaderInfoDump.cpp
 /I .
 /I Runtime
 /I Runtime\TraceLog\Public
@@ -7,16 +7,16 @@ D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source\RiderShaderInfoDump\R
 /I Runtime\Json\Public
 /I Runtime\RenderCore\Public
 /I Runtime\RHI\Public
-/I D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Source
+/I D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Source
 /I ThirdParty\mimalloc\include
 /I "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\INCLUDE"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\ucrt"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\shared"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\um"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\winrt"
-/FI"D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderShaderInfoDump\Definitions.h"
-/Fo"D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderShaderInfoDump\RiderShaderInfoDump.cpp.obj"
-/sourceDependencies D:\UnrealRepo\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderShaderInfoDump\RiderShaderInfoDump.cpp.dep.json
+/FI"D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderShaderInfoDump\Definitions.h"
+/Fo"D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderShaderInfoDump\RiderShaderInfoDump.cpp.obj"
+/sourceDependencies D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderShaderInfoDump\RiderShaderInfoDump.cpp.dep.json
 /Zc:inline
 /nologo
 /Oi

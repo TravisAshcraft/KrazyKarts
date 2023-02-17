@@ -21,12 +21,25 @@ void AVehicleBase::BeginPlay()
 
 void AVehicleBase::UpdateLocationFromVelocity(FVector Delta)
 {
+	FHitResult HitResult;
+	
 	AddActorWorldOffset(Delta, true, &HitResult);
 
 	if(HitResult.bBlockingHit)
 	{
 		Velocity = FVector::ZeroVector;
 	}
+}
+
+void AVehicleBase::ApplyRotation(float DeltaTime)
+{
+	float RotationAngle = MaxDegreePersecond * DeltaTime * SteeringThrow;
+
+	FQuat RotationDelta(GetActorUpVector(), FMath::DegreesToRadians(RotationAngle));
+
+	Velocity = RotationDelta.RotateVector(Velocity);
+
+	AddActorWorldRotation(RotationDelta);
 }
 
 // Called every frame
@@ -43,8 +56,7 @@ void AVehicleBase::Tick(float DeltaTime)
 
 	UpdateLocationFromVelocity(Delta);
 
-	FQuat RotationDelta(GetActorUpVector(), )
-
+	ApplyRotation(DeltaTime);
 }
 
 // Called to bind functionality to input
@@ -53,7 +65,7 @@ void AVehicleBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AVehicleBase::MoveForward);
-
+	PlayerInputComponent->BindAxis("MoveRight", this, &AVehicleBase::MoveRight);
 }
 
 void AVehicleBase::MoveForward(float Value)
@@ -61,4 +73,8 @@ void AVehicleBase::MoveForward(float Value)
 	Throttle = Value;
 }
 
+void AVehicleBase::MoveRight(float Value)
+{
+	SteeringThrow = Value;
+}
 
