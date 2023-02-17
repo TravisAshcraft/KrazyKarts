@@ -72,3 +72,6 @@ Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+KrazyKart/Plugins/Developer/RiderLink/*
+
+*KrazyKart/Plugins/Developer
