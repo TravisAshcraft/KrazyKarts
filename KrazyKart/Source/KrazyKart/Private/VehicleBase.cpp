@@ -19,20 +19,12 @@ AVehicleBase::AVehicleBase()
 void AVehicleBase::BeginPlay()
 {
 	Super::BeginPlay();
-
-	if(HasAuthority())
-	{
-		NetUpdateFrequency = 1;
-	}
-	
 }
 
 void AVehicleBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> & OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AVehicleBase, ServerState);
-	DOREPLIFETIME(AVehicleBase, Throttle);
-	DOREPLIFETIME(AVehicleBase, SteeringThrow);
 }
 
 FString GetEnumText(ENetRole Role)
@@ -66,10 +58,10 @@ void AVehicleBase::UpdateLocationFromVelocity(float DeltaTime)
 	}
 }
 
-void AVehicleBase::ApplyRotation(float DeltaTime)
+void AVehicleBase::ApplyRotation(float DeltaTime, float Steering)
 {
 	float DeltaLocation = FVector::DotProduct(GetActorForwardVector(), Velocity) * DeltaTime;
-	float RotationAngle = DeltaLocation / MinTurningRadius * SteeringThrow;
+	float RotationAngle = DeltaLocation / MinTurningRadius * Steering;
 	FQuat RotationDelta(GetActorUpVector(), RotationAngle);
 
 	Velocity = RotationDelta.RotateVector(Velocity);
@@ -110,30 +102,9 @@ void AVehicleBase::Tick(float DeltaTime)
 		//TODO Set timestamp
 
 		Server_SendMove(Move);
+		SimulateMove(Move);
 	}
 
-	
-	//Add air resistance to force it will eventually zero out
-	
-	FVector Force = GetActorForwardVector() * MaxDrivingForce * Throttle;
-	Force += GetDragResistance();
-	Force += GetRollingResistance();
-	
-	FVector Acceleration = Force / Mass;
-	
-	// Rolling Resistance = RRCoefficient X NormalForce
-	Velocity = Velocity + Acceleration * DeltaTime;
-
-	UpdateLocationFromVelocity(DeltaTime);
-
-	ApplyRotation(DeltaTime);
-
-	if(HasAuthority())
-	{
-		ServerState.VehicleTransform = GetActorTransform();
-		ServerState.Velocity = Velocity;
-		//TODO update last transform
-	}
 
 	DrawDebugString(GetWorld(), FVector(0,0, 100), GetEnumText(GetLocalRole()), this, FColor::White, DeltaTime);
 
@@ -164,7 +135,19 @@ void AVehicleBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 void AVehicleBase::SimulateMove(FVehicleMove Move)
 {
+	//Add air resistance to force it will eventually zero out
+	FVector Force = GetActorForwardVector() * MaxDrivingForce * Move.Throttle;
+	Force += GetDragResistance();
+	Force += GetRollingResistance();
 	
+	FVector Acceleration = Force / Mass;
+	
+	// Rolling Resistance = RRCoefficient X NormalForce
+	Velocity = Velocity + Acceleration * Move.DeltaTime;
+
+	UpdateLocationFromVelocity(Move.DeltaTime);
+
+	ApplyRotation(Move.DeltaTime, Move.SteeringThrow);
 }
 
 void AVehicleBase::MoveForward(float Value)
@@ -188,6 +171,8 @@ void AVehicleBase::Server_SendMove_Implementation(FVehicleMove Move)
 	SimulateMove(Move);
 
 	ServerState.LastMove = Move;
+	ServerState.VehicleTransform = GetActorTransform();
+	ServerState.Velocity = Velocity;
 }
 
 bool AVehicleBase::Server_SendMove_Validate(FVehicleMove Move)

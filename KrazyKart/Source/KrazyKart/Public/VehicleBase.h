@@ -52,7 +52,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	void UpdateLocationFromVelocity(float DeltaTime);
-	void ApplyRotation(float DeltaTime);
+	void ApplyRotation(float DeltaTime, float Steering);
 	FVector GetDragResistance();
 	FVector GetRollingResistance();
 public:	
@@ -86,9 +86,7 @@ private:
 	UPROPERTY(EditAnywhere)
 	float RollingResistance = 0.015;
 
-	UPROPERTY(Replicated)
 	float Throttle;
-	UPROPERTY(Replicated)
 	float SteeringThrow;
 	
 	FVector Velocity;
@@ -104,5 +102,7 @@ private:
 
 	UFUNCTION()
 	void OnRep_ServerState();
+
+	TArray<FVehicleMove> UnacknowledgeMoves;
 
 };
