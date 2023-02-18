@@ -18,6 +18,8 @@ struct FVehicleMove
 
 	UPROPERTY()
 	float DeltaTime;
+	UPROPERTY()
+	float TimeStamp;
 	
 };
 
@@ -30,13 +32,10 @@ struct FVehicleState
 	FVehicleMove LastMove;
 
 	UPROPERTY()
+	FTransform VehicleTransform;
+
+	UPROPERTY()
 	FVector Velocity;
-
-	UPROPERTY()
-	FVector Location;
-
-	UPROPERTY()
-	FRotator Rotation;
 	
 };
 
@@ -64,6 +63,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
+	void SimulateMove(FVehicleMove Move);
+	
 	UPROPERTY(EditAnywhere)
 	float Mass = 1000;
 
@@ -89,27 +90,19 @@ private:
 	float Throttle;
 	UPROPERTY(Replicated)
 	float SteeringThrow;
-
-	UPROPERTY(Replicated)
+	
 	FVector Velocity;
-
-	UPROPERTY(ReplicatedUsing= OnRep_ReplicatedLocation)
-	FVector ReplicatedLocation;
-
-	//OnReps have to be flagged as UFunction()
-	UFUNCTION() 
-	void OnRep_ReplicatedLocation();
-
-	UPROPERTY(Replicated)
-	FRotator ReplcatedRotation;
-
+	
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 	
 	UFUNCTION(Server, Reliable, WithValidation)
-	void Server_MoveForward(float Value);
+	void Server_SendMove(FVehicleMove Move);
 
-	UFUNCTION(Server, Reliable, WithValidation)
-	void Server_MoveRight(float Value);
+	UPROPERTY(ReplicatedUsing = OnRep_ServerState)
+	FVehicleState ServerState;
+
+	UFUNCTION()
+	void OnRep_ServerState();
 
 };

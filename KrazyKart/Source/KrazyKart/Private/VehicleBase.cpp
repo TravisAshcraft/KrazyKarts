@@ -30,9 +30,7 @@ void AVehicleBase::BeginPlay()
 void AVehicleBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> & OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AVehicleBase, ReplicatedLocation);
-	DOREPLIFETIME(AVehicleBase, ReplcatedRotation);
-	DOREPLIFETIME(AVehicleBase, Velocity);
+	DOREPLIFETIME(AVehicleBase, ServerState);
 	DOREPLIFETIME(AVehicleBase, Throttle);
 	DOREPLIFETIME(AVehicleBase, SteeringThrow);
 }
@@ -102,6 +100,18 @@ FVector AVehicleBase::GetRollingResistance()
 void AVehicleBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if(IsLocallyControlled())
+	{
+		FVehicleMove Move;
+		Move.DeltaTime = DeltaTime;
+		Move.SteeringThrow = SteeringThrow;
+		Move.Throttle = Throttle;
+		//TODO Set timestamp
+
+		Server_SendMove(Move);
+	}
+
 	
 	//Add air resistance to force it will eventually zero out
 	
@@ -120,11 +130,12 @@ void AVehicleBase::Tick(float DeltaTime)
 
 	if(HasAuthority())
 	{
-		ReplicatedLocation = GetActorLocation();
-		ReplcatedRotation = GetActorRotation();
+		ServerState.VehicleTransform = GetActorTransform();
+		ServerState.Velocity = Velocity;
+		//TODO update last transform
 	}
 
-	DrawDebugString(GetWorld(), FVector(0,0, 100), GetEnumText(GetLocalRole()), this, FColor::White, DeltaTime)
+	DrawDebugString(GetWorld(), FVector(0,0, 100), GetEnumText(GetLocalRole()), this, FColor::White, DeltaTime);
 
 	// 1. Create a new Move
 	// 2. Save a list of unacknowledged moves
@@ -151,46 +162,35 @@ void AVehicleBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAxis("MoveRight", this, &AVehicleBase::MoveRight);
 }
 
-void AVehicleBase::OnRep_ReplicatedLocation()
+void AVehicleBase::SimulateMove(FVehicleMove Move)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Replicated Location"));
-
-	SetActorLocation(ReplicatedLocation);
-	SetActorRotation(ReplcatedRotation);
-
+	
 }
 
 void AVehicleBase::MoveForward(float Value)
 {
 	Throttle = Value;
-	Server_MoveForward(Value);
 }
 
 void AVehicleBase::MoveRight(float Value)
 {
 	SteeringThrow = Value;
-	Server_MoveRight(Value);
 }
 
-void AVehicleBase::Server_MoveForward_Implementation(float Value)
+void AVehicleBase::OnRep_ServerState()
 {
-	Throttle = Value;
+	SetActorTransform(ServerState.VehicleTransform);
+	Velocity = ServerState.Velocity;
 }
 
-bool AVehicleBase::Server_MoveForward_Validate(float Value)
+void AVehicleBase::Server_SendMove_Implementation(FVehicleMove Move)
 {
-	return FMath::Abs(Value) <= 1;
+	SimulateMove(Move);
+
+	ServerState.LastMove = Move;
 }
 
-
-void AVehicleBase::Server_MoveRight_Implementation(float Value)
+bool AVehicleBase::Server_SendMove_Validate(FVehicleMove Move)
 {
-	SteeringThrow = Value;
+	return true;
 }
-
-bool AVehicleBase::Server_MoveRight_Validate(float Value)
-{
-	return FMath::Abs(Value) <= 1;
-}
-
-
