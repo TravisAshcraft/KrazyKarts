@@ -6,6 +6,6 @@
 /NAME:"UnrealEditor-RiderShaderInfoDump.dll"
 /IGNORE:4221
 /NODEFAULTLIB
-"D:\UnrealRepos\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderShaderInfoDump\RiderShaderInfoDump.cpp.obj"
-"D:\UnrealRepos\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderShaderInfoDump\Default.rc2.res"
-/OUT:"D:\UnrealRepos\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderShaderInfoDump\UnrealEditor-RiderShaderInfoDump.lib"
+"D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderShaderInfoDump\RiderShaderInfoDump.cpp.obj"
+"D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderShaderInfoDump\Default.rc2.res"
+/OUT:"D:\UnrealRepo\KrazyKarts\KrazyKart\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderShaderInfoDump\UnrealEditor-RiderShaderInfoDump.lib"

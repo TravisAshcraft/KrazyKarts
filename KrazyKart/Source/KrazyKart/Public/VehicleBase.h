@@ -4,24 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Vehicle/VehicleMovementComponent.h"
 #include "VehicleBase.generated.h"
 
-USTRUCT()
-struct FVehicleMove
-{
-	GENERATED_BODY()
-
-	UPROPERTY()
-	float Throttle;
-	UPROPERTY()
-	float SteeringThrow;
-
-	UPROPERTY()
-	float DeltaTime;
-	UPROPERTY()
-	float TimeStamp;
-	
-};
 
 USTRUCT()
 struct FVehicleState
@@ -51,10 +36,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	void UpdateLocationFromVelocity(float DeltaTime);
-	void ApplyRotation(float DeltaTime, float Steering);
-	FVector GetDragResistance();
-	FVector GetRollingResistance();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -63,37 +45,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
-	void SimulateMove(FVehicleMove Move);
-
-	FVehicleMove Createmove(float DeltaTime);
-
 	void ClearAcknowledeMoves(FVehicleMove VehicleMove);
-	
-	UPROPERTY(EditAnywhere)
-	float Mass = 1000;
-
-	// The force applied to the car when the throttle is fully down (N).
-	UPROPERTY(EditAnywhere)
-	float MaxDrivingForce = 10000;
-
-	// The min Turn radius at full lock (m).
-	UPROPERTY(EditAnywhere)
-	float MinTurningRadius = 10;
-
-	// The amount of drag on this vehicle
-	// Higher the number the more resistance.
-	UPROPERTY(EditAnywhere)
-	float DragCoefficient = 16;
-
-	// The amount of Rolling Resistance on this vehicle
-	// Higher the number the more resistance.
-	UPROPERTY(EditAnywhere)
-	float RollingResistance = 0.015;
-
-	float Throttle;
-	float SteeringThrow;
-	
-	FVector Velocity;
 	
 	void MoveForward(float Value);
 	void MoveRight(float Value);
@@ -108,5 +60,8 @@ private:
 	void OnRep_ServerState();
 
 	TArray<FVehicleMove> UnacknowledgeMoves;
+
+	UPROPERTY(EditAnywhere)
+	UVehicleMovementComponent* MovementComponent;
 
 };

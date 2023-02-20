@@ -3,8 +3,6 @@
 
 #include "VehicleBase.h"
 #include "DrawDebugHelpers.h"
-#include "GameFramework/GameStateBase.h"
-#include "KrazyKart/KrazyKartGameModeBase.h"
 #include "Net/UnrealNetwork.h"
 
 // Sets default values
@@ -15,6 +13,7 @@ AVehicleBase::AVehicleBase()
 
 	bReplicates = true;
 
+	MovementComponent = CreateDefaultSubobject<UVehicleMovementComponent>(TEXT("MovementComp"));
 }
 
 // Called when the game starts or when spawned
@@ -46,66 +45,27 @@ FString GetEnumText(ENetRole Role)
 	}
 }
 
-
-void AVehicleBase::UpdateLocationFromVelocity(float DeltaTime)
-{
-	FVector Delta = Velocity * 100 * DeltaTime;
-	FHitResult HitResult;
-	
-	AddActorWorldOffset(Delta, true, &HitResult);
-
-	if(HitResult.bBlockingHit)
-	{
-		Velocity = FVector::ZeroVector;
-	}
-}
-
-void AVehicleBase::ApplyRotation(float DeltaTime, float Steering)
-{
-	float DeltaLocation = FVector::DotProduct(GetActorForwardVector(), Velocity) * DeltaTime;
-	float RotationAngle = DeltaLocation / MinTurningRadius * Steering;
-	FQuat RotationDelta(GetActorUpVector(), RotationAngle);
-
-	Velocity = RotationDelta.RotateVector(Velocity);
-
-	AddActorWorldRotation(RotationDelta);
-
-	UpdateLocationFromVelocity(DeltaTime);
-}
-
-FVector AVehicleBase::GetDragResistance()
-{
-	return -Velocity.GetSafeNormal() * Velocity.SizeSquared() * DragCoefficient;
-}
-
-FVector AVehicleBase::GetRollingResistance()
-{
-	
-	//Noraml Force is the gravity being applied in the zed axis downward
-	float AccelerationDueToGravity = -GetWorld()->GetGravityZ() / 100;
-	float NormalForce = Mass * AccelerationDueToGravity;
-	return -Velocity.GetSafeNormal() * RollingResistance * NormalForce;
-}
-
-
-
-
 // Called every frame
 void AVehicleBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if(MovementComponent == nullptr)
+	{
+		return;
+	}
 	
 	if(GetLocalRole() == ROLE_AutonomousProxy)
 	{
-		FVehicleMove Move = Createmove(DeltaTime);
-		SimulateMove(Move);
+		FVehicleMove Move = MovementComponent->Createmove(DeltaTime);
+		MovementComponent->SimulateMove(Move);
 
 		UnacknowledgeMoves.Add(Move);
 		Server_SendMove(Move);
 	}
 	if(GetLocalRole() == ROLE_Authority && IsLocallyControlled())
 	{
-		FVehicleMove Move = Createmove(DeltaTime);
+		FVehicleMove Move = MovementComponent->Createmove(DeltaTime);
 		Server_SendMove(Move);
 	}
 
@@ -113,7 +73,7 @@ void AVehicleBase::Tick(float DeltaTime)
 
 	if(GetLocalRole() == ROLE_SimulatedProxy)
 	{
-		SimulateMove(ServerState.LastMove);
+		MovementComponent->SimulateMove(ServerState.LastMove);
 	}
 	
 	// 1. Create a new Move
@@ -141,33 +101,6 @@ void AVehicleBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAxis("MoveRight", this, &AVehicleBase::MoveRight);
 }
 
-void AVehicleBase::SimulateMove(const FVehicleMove Move)
-{
-	//Add air resistance to force it will eventually zero out
-	FVector Force = GetActorForwardVector() * MaxDrivingForce * Move.Throttle;
-	Force += GetDragResistance();
-	Force += GetRollingResistance();
-	
-	FVector Acceleration = Force / Mass;
-	
-	// Rolling Resistance = RRCoefficient X NormalForce
-	Velocity = Velocity + Acceleration * Move.DeltaTime;
-
-	UpdateLocationFromVelocity(Move.DeltaTime);
-
-	ApplyRotation(Move.DeltaTime, Move.SteeringThrow);
-}
-
-FVehicleMove AVehicleBase::Createmove(float DeltaTime)
-{
-	FVehicleMove Move;
-	Move.DeltaTime = DeltaTime;
-	Move.SteeringThrow = SteeringThrow;
-	Move.Throttle = Throttle;
-	Move.TimeStamp = GetWorld()->GetGameState()->GetServerWorldTimeSeconds();
-
-	return Move;
-}
 
 void AVehicleBase::ClearAcknowledeMoves(FVehicleMove LastMove)
 {
@@ -189,34 +122,52 @@ void AVehicleBase::ClearAcknowledeMoves(FVehicleMove LastMove)
 
 void AVehicleBase::MoveForward(float Value)
 {
-	Throttle = Value;
+	if(MovementComponent == nullptr)
+	{
+		return;
+	}
+	MovementComponent->SetThrottle(Value);
 }
 
 void AVehicleBase::MoveRight(float Value)
 {
-	SteeringThrow = Value;
+	if(MovementComponent == nullptr)
+	{
+		return;
+	}
+	MovementComponent->SetSteeringThrow(Value);
 }
 
 void AVehicleBase::OnRep_ServerState()
 {
+
+	if(MovementComponent == nullptr)
+	{
+		return;
+	}
+	
 	SetActorTransform(ServerState.VehicleTransform);
-	Velocity = ServerState.Velocity;
+	MovementComponent->SetVelocity(ServerState.Velocity);
 
 	ClearAcknowledeMoves(ServerState.LastMove);
 
 	for (const FVehicleMove& Move : UnacknowledgeMoves)
 	{
-		SimulateMove(Move);
+		MovementComponent->SimulateMove(Move);
 	}
 }
 
 void AVehicleBase::Server_SendMove_Implementation(FVehicleMove Move)
 {
-	SimulateMove(Move);
+	if(MovementComponent == nullptr)
+	{
+		return;
+	}
+	MovementComponent->SimulateMove(Move);
 
 	ServerState.LastMove = Move;
 	ServerState.VehicleTransform = GetActorTransform();
-	ServerState.Velocity = Velocity;
+	ServerState.Velocity = MovementComponent->GetVelocity();
 }
 
 bool AVehicleBase::Server_SendMove_Validate(FVehicleMove Move)
