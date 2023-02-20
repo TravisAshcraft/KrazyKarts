@@ -3,6 +3,8 @@
 
 #include "VehicleBase.h"
 #include "DrawDebugHelpers.h"
+#include "GameFramework/GameStateBase.h"
+#include "KrazyKart/KrazyKartGameModeBase.h"
 #include "Net/UnrealNetwork.h"
 
 // Sets default values
@@ -92,22 +94,28 @@ FVector AVehicleBase::GetRollingResistance()
 void AVehicleBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	if(IsLocallyControlled())
+	
+	if(GetLocalRole() == ROLE_AutonomousProxy)
 	{
-		FVehicleMove Move;
-		Move.DeltaTime = DeltaTime;
-		Move.SteeringThrow = SteeringThrow;
-		Move.Throttle = Throttle;
-		//TODO Set timestamp
-
-		Server_SendMove(Move);
+		FVehicleMove Move = Createmove(DeltaTime);
 		SimulateMove(Move);
-	}
 
+		UnacknowledgeMoves.Add(Move);
+		Server_SendMove(Move);
+	}
+	if(GetLocalRole() == ROLE_Authority && IsLocallyControlled())
+	{
+		FVehicleMove Move = Createmove(DeltaTime);
+		Server_SendMove(Move);
+	}
 
 	DrawDebugString(GetWorld(), FVector(0,0, 100), GetEnumText(GetLocalRole()), this, FColor::White, DeltaTime);
 
+	if(GetLocalRole() == ROLE_SimulatedProxy)
+	{
+		SimulateMove(ServerState.LastMove);
+	}
+	
 	// 1. Create a new Move
 	// 2. Save a list of unacknowledged moves
 	// 3. Send the move to the server
@@ -133,7 +141,7 @@ void AVehicleBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAxis("MoveRight", this, &AVehicleBase::MoveRight);
 }
 
-void AVehicleBase::SimulateMove(FVehicleMove Move)
+void AVehicleBase::SimulateMove(const FVehicleMove Move)
 {
 	//Add air resistance to force it will eventually zero out
 	FVector Force = GetActorForwardVector() * MaxDrivingForce * Move.Throttle;
@@ -150,6 +158,35 @@ void AVehicleBase::SimulateMove(FVehicleMove Move)
 	ApplyRotation(Move.DeltaTime, Move.SteeringThrow);
 }
 
+FVehicleMove AVehicleBase::Createmove(float DeltaTime)
+{
+	FVehicleMove Move;
+	Move.DeltaTime = DeltaTime;
+	Move.SteeringThrow = SteeringThrow;
+	Move.Throttle = Throttle;
+	Move.TimeStamp = GetWorld()->GetGameState()->GetServerWorldTimeSeconds();
+
+	return Move;
+}
+
+void AVehicleBase::ClearAcknowledeMoves(FVehicleMove LastMove)
+{
+	TArray<FVehicleMove> NewMoves;
+
+	for (const FVehicleMove& Move : UnacknowledgeMoves)
+	{
+		if(Move.TimeStamp > LastMove.TimeStamp)
+		{
+			//We check the timestamp of the new move
+			//If it is greater than the last then we need to add it
+			NewMoves.Add(Move);
+		}
+	}
+
+	//We set the unacknowledgeMoves to NewMoves
+	UnacknowledgeMoves = NewMoves;
+}
+
 void AVehicleBase::MoveForward(float Value)
 {
 	Throttle = Value;
@@ -164,6 +201,13 @@ void AVehicleBase::OnRep_ServerState()
 {
 	SetActorTransform(ServerState.VehicleTransform);
 	Velocity = ServerState.Velocity;
+
+	ClearAcknowledeMoves(ServerState.LastMove);
+
+	for (const FVehicleMove& Move : UnacknowledgeMoves)
+	{
+		SimulateMove(Move);
+	}
 }
 
 void AVehicleBase::Server_SendMove_Implementation(FVehicleMove Move)

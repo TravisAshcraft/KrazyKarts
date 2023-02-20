@@ -64,6 +64,10 @@ public:
 
 private:
 	void SimulateMove(FVehicleMove Move);
+
+	FVehicleMove Createmove(float DeltaTime);
+
+	void ClearAcknowledeMoves(FVehicleMove VehicleMove);
 	
 	UPROPERTY(EditAnywhere)
 	float Mass = 1000;
